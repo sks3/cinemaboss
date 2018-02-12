@@ -2,7 +2,7 @@
 
 CinemaBoss is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **2.1** hours spent in total
+Time spent: **3** hours spent in total
 
 ## User Stories
 
@@ -28,8 +28,8 @@ The following **additional** user stories are implemented:
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+1.  I would like to add a home screen which will allow further use of the API
+2.  It would be nice to be able to implement caching so there is no delay upon App Launch
 
 ## Video Walkthrough
 
@@ -41,7 +41,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+This is the first iOS App I have build utilizing an API.  I hope to leverage APIs to build many more products in the near future.
 
 ## License
 
