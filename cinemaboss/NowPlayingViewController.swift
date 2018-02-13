@@ -28,6 +28,7 @@
 
 import UIKit
 import AlamofireImage
+import iProgressHUD
 
 class NowPlayingViewController: UIViewController, UITableViewDataSource {
 
@@ -38,6 +39,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    
     refreshControl = UIRefreshControl()
     refreshControl.addTarget(self, action: #selector
       (NowPlayingViewController.didPullToRefresh(_:)), for: .valueChanged)
@@ -45,11 +47,37 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     tableView.insertSubview(refreshControl, at: 0)
     tableView.dataSource = self
     tableView.rowHeight = 190
-    fetchNowPlayingMovies()
+    
+   
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
     
   }
   
+  override func viewDidAppear(_ animated: Bool) {
+    // Configure HUD and attach to view
+    let iprogress: iProgressHUD = iProgressHUD()
+    iprogress.isShowModal = true
+    iprogress.isBlurModal = true
+    iprogress.isShowCaption = true
+    iprogress.isTouchDismiss = true
+    iprogress.indicatorStyle = .ballGridPulse
+    iprogress.indicatorSize = 65
+    iprogress.boxSize = 40
+    iprogress.captionSize = 20
+    iprogress.attachProgress(toView: view)
+    view.showProgress()
+    
+    fetchNowPlayingMovies()
+  }
+  
+  
+  
   @objc func didPullToRefresh(_ refreshControl: UIRefreshControl) {
+    // Set caption for HUD
+    view.updateCaption(text: "Refreshing...")
+    view.showProgress()
     fetchNowPlayingMovies()
   }
   
@@ -68,9 +96,11 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
         self.movies = movies
         self.tableView.reloadData()
         self.refreshControl.endRefreshing()
+        self.view.dismissProgress()
       }
     }
     task.resume()
+    
   }
   
   // default tableView functions
@@ -89,14 +119,12 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     let baseURLString = "https://image.tmdb.org/t/p/w500/"
     let posterURL = URL(string: baseURLString + posterPathString)!
     cell.posterImageView.af_setImage(withURL: posterURL)
-    
     return cell
   }
   
   override func didReceiveMemoryWarning() {
       super.didReceiveMemoryWarning()
       // Dispose of any resources that can be recreated.
-  }
-    
+  }    
 }
 

@@ -7,6 +7,7 @@ target 'cinemaboss' do
 
   # Pods for cinemaboss
 	pod 'AlamofireImage'
+	pod 'iProgressHUD'
 
   target 'cinemabossTests' do
     inherit! :search_paths
