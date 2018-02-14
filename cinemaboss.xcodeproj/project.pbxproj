@@ -11,6 +11,7 @@
 		208D7EB3FFBA143D096F23E0 /* Pods_cinemabossUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339ED90771F327ED5BE8D481 /* Pods_cinemabossUITests.framework */; };
 		3550213FA2C94E543882A97A /* Pods_cinemaboss.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D768D3A8B86D15FC76F455C7 /* Pods_cinemaboss.framework */; };
 		E7003A73202CE14300DEDED4 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7003A72202CE14300DEDED4 /* MovieCell.swift */; };
+		E760BBC02033B6EA00ADD619 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E760BBBF2033B6EA00ADD619 /* DetailViewController.swift */; };
 		E7C6F808202694D100CB2309 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C6F807202694D100CB2309 /* AppDelegate.swift */; };
 		E7C6F80D202694D100CB2309 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7C6F80B202694D100CB2309 /* Main.storyboard */; };
 		E7C6F80F202694D100CB2309 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7C6F80E202694D100CB2309 /* Assets.xcassets */; };
@@ -46,6 +47,7 @@
 		3D18A86426C7F9B6F767891F /* Pods-cinemabossTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cinemabossTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-cinemabossTests/Pods-cinemabossTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D768D3A8B86D15FC76F455C7 /* Pods_cinemaboss.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_cinemaboss.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7003A72202CE14300DEDED4 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
+		E760BBBF2033B6EA00ADD619 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		E7C6F804202694D100CB2309 /* cinemaboss.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cinemaboss.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7C6F807202694D100CB2309 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E7C6F80C202694D100CB2309 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -114,6 +116,23 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E760BBBD2033B66E00ADD619 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E7003A72202CE14300DEDED4 /* MovieCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E760BBBE2033B67D00ADD619 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				E7C6F8352027BA4F00CB2309 /* NowPlayingViewController.swift */,
+				E760BBBF2033B6EA00ADD619 /* DetailViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		E7C6F7FB202694D000CB2309 = {
 			isa = PBXGroup;
 			children = (
@@ -139,13 +158,13 @@
 		E7C6F806202694D100CB2309 /* cinemaboss */ = {
 			isa = PBXGroup;
 			children = (
-				E7C6F8352027BA4F00CB2309 /* NowPlayingViewController.swift */,
+				E760BBBE2033B67D00ADD619 /* ViewControllers */,
+				E760BBBD2033B66E00ADD619 /* Views */,
 				E7C6F807202694D100CB2309 /* AppDelegate.swift */,
 				E7C6F80B202694D100CB2309 /* Main.storyboard */,
 				E7C6F80E202694D100CB2309 /* Assets.xcassets */,
 				E7C6F810202694D100CB2309 /* LaunchScreen.storyboard */,
 				E7C6F813202694D100CB2309 /* Info.plist */,
-				E7003A72202CE14300DEDED4 /* MovieCell.swift */,
 			);
 			path = cinemaboss;
 			sourceTree = "<group>";
@@ -468,6 +487,7 @@
 				E7C6F8362027BA4F00CB2309 /* NowPlayingViewController.swift in Sources */,
 				E7C6F808202694D100CB2309 /* AppDelegate.swift in Sources */,
 				E7003A73202CE14300DEDED4 /* MovieCell.swift in Sources */,
+				E760BBC02033B6EA00ADD619 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

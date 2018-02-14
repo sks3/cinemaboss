@@ -81,6 +81,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     fetchNowPlayingMovies()
   }
   
+  // Retrieve NowPlaying listings from moviedb API
   func fetchNowPlayingMovies() {
     let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=4e92dd6c397483b130eb698d2e0bb14e")!
     let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
