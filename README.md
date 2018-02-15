@@ -2,13 +2,13 @@
 
 **CinemaBoss** is a movies app displaying box office and top rental DVDs using [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **2** hours spent in total
+Time spent: **3** hours spent in total
 
 ## User Stories
 
 The following **required** functionality is completed:
 
-- [ ] User can tap a cell to see a detail view (+5pts)
+- [x] User can tap a cell to see a detail view (+5pts)
 - [ ] User can tap a tab bar button to view a grid layout of Movie Posters using a CollectionView (+5pts)
 
 The following **stretch** features are implemented:
@@ -39,7 +39,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+As I am adding features to this App, I am learning new techniques which I could have used on my previous App.  As I learn more I intend to go back and update the functionality of my previous Apps.
 
 ## License
 
