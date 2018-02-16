@@ -50,6 +50,8 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     tableView.dataSource = self
     tableView.rowHeight = 190
     
+
+    
     // alert user if no network connection is found
     alertController = UIAlertController(title: "Cannot Retrieve Movies", message: "The Internet Connection is Offline", preferredStyle: .alert)
     let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) {(action) in self.fetchNowPlayingMovies()}
@@ -118,6 +120,11 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
+    
+    // define placeholder image for display until posters load
+    let placeholderImage = UIImage(named: "placeholder")
+        
+    // load movie attributes into MovieCell
     let movie = movies[indexPath.row]
     let title = movie["title"] as! String
     let overview = movie["overview"] as! String    
@@ -126,7 +133,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     let posterPathString = movie["poster_path"] as! String
     let baseURLString = "https://image.tmdb.org/t/p/w500/"
     let posterURL = URL(string: baseURLString + posterPathString)!
-    cell.posterImageView.af_setImage(withURL: posterURL)
+    cell.posterImageView.af_setImage(withURL: posterURL, placeholderImage: placeholderImage)
     return cell
   }
   

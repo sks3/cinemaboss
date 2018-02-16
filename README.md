@@ -2,7 +2,7 @@
 
 **CinemaBoss** is a movies app displaying box office and top rental DVDs using [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **4** hours spent in total
+Time spent: **5** hours spent in total
 
 ## User Stories
 
@@ -17,6 +17,7 @@ The following **stretch** features are implemented:
 - [ ] In the detail view, when the user taps the poster, a new screen is presented modally where they can view the trailer (+3pts)
 - [ ] Customize the navigation bar (+1pt)
 - [x] User sees an alert when there's a networking error (+1pt)
+- [x] While poster is being fetched, user see's a placeholder image (+1pt)
 
 The following **additional** features are implemented:
 
@@ -34,6 +35,7 @@ Here's a walkthrough of implemented user stories:
 ![CinemaBoss Video Walkthrough](https://github.com/sks3/cinemaboss/blob/master/cinemaboss2.gif)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
+Placeholder icon by [Gakuseisean](http://gakuseisean.deviantart.com/) from [www.iconfinder.com](www.iconfinder.com).
 
 ## Notes
 
@@ -61,7 +63,7 @@ The following **stretch** user stories are implemented:
 
 - [x] User sees an alert when there's a networking error (+1pt)
 - [ ] User can search for a movie (+3pt)
-- [ ] While poster is being fetched, user see's a placeholder image (+1pt)
+- [x] While poster is being fetched, user see's a placeholder image (+1pt)
 - [ ] User sees image transition for images coming from network, not when it is loaded from cache (+1pt)
 - [ ] Customize the selection effect of the cell (+1pt)
 - [ ] For the large poster, load the low resolution image first and then switch to the high resolution image when complete (+2pt)
