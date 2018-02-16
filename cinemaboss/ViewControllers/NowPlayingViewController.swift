@@ -36,6 +36,8 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
   
   var movies: [[String: Any]] = []
   var refreshControl: UIRefreshControl!
+  var alertController: UIAlertController!
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -48,6 +50,10 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     tableView.dataSource = self
     tableView.rowHeight = 190
     
+    // alert user if no network connection is found
+    alertController = UIAlertController(title: "Cannot Retrieve Movies", message: "The Internet Connection is Offline", preferredStyle: .alert)
+    let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) {(action) in self.fetchNowPlayingMovies()}
+    alertController.addAction(tryAgainAction)
     
   }
   
@@ -89,6 +95,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     let task = session.dataTask(with: request) { (data, response, error) in
       // This will run when the network request returns
       if let error = error {
+        self.present(self.alertController, animated: true)
         print(error.localizedDescription)
       }
       else if let data = data {
