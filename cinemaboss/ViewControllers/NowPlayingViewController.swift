@@ -75,7 +75,6 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     iprogress.boxSize = 40
     iprogress.captionSize = 20
     iprogress.attachProgress(toView: view)
-    view.showProgress()
     
     fetchNowPlayingMovies()
   }
@@ -84,23 +83,26 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
   
   @objc func didPullToRefresh(_ refreshControl: UIRefreshControl) {
     // Set caption for HUD
-    view.updateCaption(text: "Refreshing...")
+    view.updateCaption(text: "refreshing...")
     view.showProgress()
     fetchNowPlayingMovies()
   }
   
   // Retrieve NowPlaying listings from moviedb API
   func fetchNowPlayingMovies() {
+    view.showProgress()
     let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=4e92dd6c397483b130eb698d2e0bb14e")!
     let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
     let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
     let task = session.dataTask(with: request) { (data, response, error) in
       // This will run when the network request returns
       if let error = error {
+        // display alert for user to retry connecting
         self.present(self.alertController, animated: true)
         print(error.localizedDescription)
       }
       else if let data = data {
+        
         let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
         let movies = dataDictionary["results"] as! [[String: Any]]
         self.movies = movies
@@ -123,7 +125,13 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     
     // define placeholder image for display until posters load
     let placeholderImage = UIImage(named: "placeholder")
-        
+    
+    // specify animation technique for image transition
+    let filter = AspectScaledToFillSizeFilter(size: cell.posterImageView.frame.size)
+    
+    //set cell selection effect
+    cell.selectionStyle = .none
+    
     // load movie attributes into MovieCell
     let movie = movies[indexPath.row]
     let title = movie["title"] as! String
@@ -133,7 +141,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     let posterPathString = movie["poster_path"] as! String
     let baseURLString = "https://image.tmdb.org/t/p/w500/"
     let posterURL = URL(string: baseURLString + posterPathString)!
-    cell.posterImageView.af_setImage(withURL: posterURL, placeholderImage: placeholderImage)
+    cell.posterImageView.af_setImage(withURL: posterURL, placeholderImage: placeholderImage, filter: filter, imageTransition: .crossDissolve(0.1))
     return cell
   }
   
