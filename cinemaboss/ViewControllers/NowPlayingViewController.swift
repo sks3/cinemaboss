@@ -58,6 +58,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     
     tableView.dataSource = self
     tableView.rowHeight = 190
+    tableView.backgroundColor = UIColor.black
     
     // alert user if no network connection is found
     alertController = UIAlertController(title: "Cannot Retrieve Movies", message: "The Internet Connection is Offline", preferredStyle: .alert)
@@ -74,7 +75,6 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
       
       if (scrollView.contentOffset.y > scrollViewOffsetThreshold && tableView.isDragging) {
         isMoreDataLoading = true
-        //view.showProgress()
         fetchNowPlayingMovies()
       }
     }
@@ -97,33 +97,35 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     iprogress.boxSize = 40
     iprogress.captionSize = 20
     iprogress.attachProgress(toView: view)
-    
-    fetchNowPlayingMovies()
+    if (movies.count == 0) {
+      fetchNowPlayingMovies()
+    }
   }
   
-
+  
   
   @objc func didPullToRefresh(_ refreshControl: UIRefreshControl) {
-     print("didPullToRefresh: movies size = " + String(movies.count))
+    print("didPullToRefresh: movies size = " + String(movies.count))
     // Set caption for HUD
     view.updateCaption(text: "refreshing...")
     view.showProgress()
-    movies = []
-    movies1 = []
+    //movies = []
+    //movies1 = []
     pageNum = 1
     fetchNowPlayingMovies()
   }
   
   // Retrieve NowPlaying listings from moviedb API
   func fetchNowPlayingMovies() {
-     print("fetchNowPlayingMovies1: movies size = " + String(movies.count))
+    print("fetchNowPlayingMovies1: movies size = " + String(movies.count))
+    print("fetch1: isMoreDataLoading = " + String(isMoreDataLoading))
     view.showProgress()
     if (isMoreDataLoading) {
       pageNum += 1
     }
     let bulkRequest = "https://api.themoviedb.org/3/movie/now_playing?api_key=4e92dd6c397483b130eb698d2e0bb14e"
     let pageRequest = "&page=" + String(pageNum)
-
+    
     let url = URL(string: bulkRequest + pageRequest)!
     //let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=4e92dd6c397483b130eb698d2e0bb14e")!
     let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
