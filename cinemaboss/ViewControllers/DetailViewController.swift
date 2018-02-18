@@ -28,8 +28,7 @@ class DetailViewController: UIViewController {
   @IBOutlet weak var overviewLabel: UILabel!
 
   var movie: [String: Any]?
-  
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
     if let movie = movie {

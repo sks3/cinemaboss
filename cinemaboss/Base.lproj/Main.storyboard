@@ -67,6 +67,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Movies" id="jIV-PQ-1ly"/>
                     <connections>
+                        <outlet property="scrollView" destination="PDK-Uv-ajJ" id="MiB-tK-2TC"/>
                         <outlet property="tableView" destination="PDK-Uv-ajJ" id="WkT-2r-rz4"/>
                     </connections>
                 </viewController>
@@ -176,7 +177,7 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="3" minimumInteritemSpacing="3" id="eBb-Qh-cbN">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="3" id="eBb-Qh-cbN">
                                     <size key="itemSize" width="125" height="209"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>

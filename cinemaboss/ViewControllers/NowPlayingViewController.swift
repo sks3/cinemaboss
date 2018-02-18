@@ -30,27 +30,34 @@ import UIKit
 import AlamofireImage
 import iProgressHUD
 
-class NowPlayingViewController: UIViewController, UITableViewDataSource {
+class NowPlayingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
   
   @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var scrollView: UIScrollView!
+  
   
   var movies: [[String: Any]] = []
+  var movies1: [[String: Any]] = []
   var refreshControl: UIRefreshControl!
   var alertController: UIAlertController!
+  var isMoreDataLoading = false
+  var pageNum = 1
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    print("viewDidLoad: movies size = " + String(movies.count))
     
+    scrollView.delegate = self
+    tableView.delegate = self
     
     refreshControl = UIRefreshControl()
     refreshControl.addTarget(self, action: #selector
       (NowPlayingViewController.didPullToRefresh(_:)), for: .valueChanged)
     // define datasource for tableview
     tableView.insertSubview(refreshControl, at: 0)
+    
     tableView.dataSource = self
     tableView.rowHeight = 190
-    
-
     
     // alert user if no network connection is found
     alertController = UIAlertController(title: "Cannot Retrieve Movies", message: "The Internet Connection is Offline", preferredStyle: .alert)
@@ -58,6 +65,21 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     alertController.addAction(tryAgainAction)
     
   }
+  
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    print("scrollViewDidScroll: movies size = " + String(movies.count))
+    if (!isMoreDataLoading) {
+      let scrollViewContentHeight = tableView.contentSize.height
+      let scrollViewOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+      
+      if (scrollView.contentOffset.y > scrollViewOffsetThreshold && tableView.isDragging) {
+        isMoreDataLoading = true
+        //view.showProgress()
+        fetchNowPlayingMovies()
+      }
+    }
+  }
+  
   
   override func viewWillAppear(_ animated: Bool) {
     
@@ -79,19 +101,31 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     fetchNowPlayingMovies()
   }
   
-  
+
   
   @objc func didPullToRefresh(_ refreshControl: UIRefreshControl) {
+     print("didPullToRefresh: movies size = " + String(movies.count))
     // Set caption for HUD
     view.updateCaption(text: "refreshing...")
     view.showProgress()
+    movies = []
+    movies1 = []
+    pageNum = 1
     fetchNowPlayingMovies()
   }
   
   // Retrieve NowPlaying listings from moviedb API
   func fetchNowPlayingMovies() {
+     print("fetchNowPlayingMovies1: movies size = " + String(movies.count))
     view.showProgress()
-    let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=4e92dd6c397483b130eb698d2e0bb14e")!
+    if (isMoreDataLoading) {
+      pageNum += 1
+    }
+    let bulkRequest = "https://api.themoviedb.org/3/movie/now_playing?api_key=4e92dd6c397483b130eb698d2e0bb14e"
+    let pageRequest = "&page=" + String(pageNum)
+
+    let url = URL(string: bulkRequest + pageRequest)!
+    //let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=4e92dd6c397483b130eb698d2e0bb14e")!
     let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
     let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
     let task = session.dataTask(with: request) { (data, response, error) in
@@ -104,12 +138,22 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
       else if let data = data {
         
         let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-        let movies = dataDictionary["results"] as! [[String: Any]]
-        self.movies = movies
-        self.tableView.reloadData()
-        self.refreshControl.endRefreshing()
+        if (self.isMoreDataLoading) {
+          self.movies1 = dataDictionary["results"] as! [[String: Any]]
+          self.movies.append(contentsOf: self.movies1)
+          self.isMoreDataLoading = false
+          print("fetchNowPlayingMovies2: movies size = " + String(self.movies.count))
+        }
+        else {
+          self.movies = dataDictionary["results"] as! [[String: Any]]
+          print("fetchNowPlayingMovies3: movies size = " + String(self.movies.count))
+        }
         self.view.dismissProgress()
+        self.refreshControl.endRefreshing()
+        self.tableView.reloadData()
+        print("fetchNowPlayingMovies4: movies size = " + String(self.movies.count))
       }
+      
     }
     task.resume()
     
