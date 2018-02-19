@@ -20,18 +20,21 @@ enum MovieKeys {
 
 
 class DetailViewController: UIViewController {
- 
+  
   @IBOutlet weak var backDropImageView: UIImageView!
   @IBOutlet weak var posterImageView: UIImageView!
   @IBOutlet weak var movieTitleLabel: UILabel!
   @IBOutlet weak var releaseDateLabel: UILabel!
   @IBOutlet weak var overviewLabel: UILabel!
-
+  
   var movie: [String: Any]?
-
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGesture:)))
+    posterImageView.isUserInteractionEnabled = true
+    posterImageView.addGestureRecognizer(tapGesture)
     
     if let movie = movie {
       movieTitleLabel.text = movie[MovieKeys.title] as? String
@@ -47,25 +50,18 @@ class DetailViewController: UIViewController {
       posterImageView.af_setImage(withURL: posterPathURL)
       
     }
-    
-    
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
   }
-    
+  
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    let destinationNavigationController = segue.destination as! UINavigationController
+    let movieTrailerController = destinationNavigationController.topViewController as! MovieTrailerViewController
+    movieTrailerController.movie = movie
+  }
+  
+  @objc func imageTapped(tapGesture: UITapGestureRecognizer) {
+    performSegue(withIdentifier: "showTrailer", sender: nil)
+  }
+  
+  
 }
