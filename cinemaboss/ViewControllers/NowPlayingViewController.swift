@@ -79,11 +79,6 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     }
   }
   
-  
-  override func viewWillAppear(_ animated: Bool) {
-    
-  }
-  
   override func viewDidAppear(_ animated: Bool) {
     // Configure HUD and attach to view
     let iprogress: iProgressHUD = iProgressHUD()

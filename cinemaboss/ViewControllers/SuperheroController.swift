@@ -48,7 +48,6 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
   }
   
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    print("scrollViewDidScroll: movies size = " + String(movies.count))
     if (!isMoreDataLoading) {
       let scrollViewContentHeight = superheroCollectionView.contentSize.height
       let scrollViewOffsetThreshold = scrollViewContentHeight - superheroCollectionView.bounds.size.height

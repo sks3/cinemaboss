@@ -51,8 +51,8 @@ class MovieTrailerViewController: UIViewController, WKUIDelegate {
   }
   
   func requestVideos() {
+    
     if let movie = movie {
-      
       let baseUrl = "https://api.themoviedb.org/3/movie/"
       let id = movie["id"] as! Int
       let key = "/videos?api_key=4e92dd6c397483b130eb698d2e0bb14e"
@@ -79,6 +79,10 @@ class MovieTrailerViewController: UIViewController, WKUIDelegate {
         
       }
       task.resume()
+    }
+    else {
+      print("movie not found")
+      dismiss(animated: true, completion: nil)
     }
   }
   
