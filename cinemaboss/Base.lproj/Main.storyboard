@@ -201,6 +201,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="MwZ-fT-W63" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="2J9-c3-Fo1">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
@@ -309,6 +310,6 @@
         <image name="superhero_tabbar_item" width="21" height="23"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="sfm-RA-uCH"/>
+        <segue reference="Gbe-lK-xkm"/>
     </inferredMetricsTieBreakers>
 </document>

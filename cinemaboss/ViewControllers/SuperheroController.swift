@@ -1,10 +1,30 @@
-//
-//  SuperheroController.swift
-//  cinemaboss
-//
-//  Created by somi on 2/18/18.
-//  Copyright © 2018 Somi Singh. All rights reserved.
-//
+/// Copyright (c) 2018 Somi Singh
+///
+/// Permission is hereby granted, free of charge, to any person obtaining a copy
+/// of this software and associated documentation files (the "Software"), to deal
+/// in the Software without restriction, including without limitation the rights
+/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+/// copies of the Software, and to permit persons to whom the Software is
+/// furnished to do so, subject to the following conditions:
+///
+/// The above copyright notice and this permission notice shall be included in
+/// all copies or substantial portions of the Software.
+///
+/// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
+/// distribute, sublicense, create a derivative work, and/or sell copies of the
+/// Software in any work that is designed, intended, or marketed for pedagogical or
+/// instructional purposes related to programming, coding, application development,
+/// or information technology.  Permission for such use, copying, modification,
+/// merger, publication, distribution, sublicensing, creation of derivative works,
+/// or sale is expressly withheld.
+///
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+/// THE SOFTWARE.
 
 import UIKit
 import AlamofireImage
@@ -15,21 +35,16 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
   @IBOutlet weak var superheroCollectionView: UICollectionView!
   @IBOutlet weak var scrollView: UIScrollView!
   
-  
   var movies: [[String: Any]] = []
   var movies1: [[String: Any]] = []
   var isMoreDataLoading = false
   var pageNum = 1
   
-  
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     superheroCollectionView.delegate = self
     scrollView.delegate = self
-    
     superheroCollectionView.dataSource = self
-    
     superheroCollectionView.backgroundColor = UIColor.black
     
     let layout = superheroCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
@@ -43,22 +58,18 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
     if (movies.count == 0) {
       fetchSuperHeroMovies()
     }
-    
-    // Do any additional setup after loading the view.
   }
   
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     if (!isMoreDataLoading) {
       let scrollViewContentHeight = superheroCollectionView.contentSize.height
       let scrollViewOffsetThreshold = scrollViewContentHeight - superheroCollectionView.bounds.size.height
-      
       if (scrollView.contentOffset.y > scrollViewOffsetThreshold && superheroCollectionView.isDragging) {
         isMoreDataLoading = true
         fetchSuperHeroMovies()
       }
     }
   }
-  
   
   override func viewDidAppear(_ animated: Bool) {
     // Configure HUD and attach to view
@@ -95,27 +106,20 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
   
   func fetchSuperHeroMovies() {
     view.showProgress()
-    
     if (isMoreDataLoading) {
       pageNum += 1
     }
-    
     let bulkRequest = "https://api.themoviedb.org/3/movie/284054/similar?api_key=4e92dd6c397483b130eb698d2e0bb14e"
     let pageRequest = "&page=" + String(pageNum)
     let url = URL(string: bulkRequest + pageRequest)!
-    
-    //let url = URL(string: "https://api.themoviedb.org/3/movie/284054/similar?api_key=4e92dd6c397483b130eb698d2e0bb14e")!
     let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
     let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
     let task = session.dataTask(with: request) { (data, response, error) in
       // This will run when the network request returns
       if let error = error {
-        // display alert for user to retry connecting
-        //self.present(self.alertController, animated: true)
         print(error.localizedDescription)
       }
       else if let data = data {
-        
         let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
         if (self.isMoreDataLoading) {
           self.movies1 = dataDictionary["results"] as! [[String: Any]]
@@ -127,16 +131,13 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
           self.movies = dataDictionary["results"] as! [[String: Any]]
         }
         self.view.dismissProgress()
-        //self.refreshControl.endRefreshing()
         self.superheroCollectionView.reloadData()
         self.view.dismissProgress()
         print("fetchNowPlayingMovies4: movies size = " + String(self.movies.count))
       }
-      
     }
     task.resume()
   }
-  
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let cell = sender as! UICollectionViewCell
@@ -146,5 +147,4 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
       detailViewController.movie = movie
     }
   }
-  
 }

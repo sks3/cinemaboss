@@ -35,7 +35,6 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var scrollView: UIScrollView!
   
-  
   var movies: [[String: Any]] = []
   var movies1: [[String: Any]] = []
   var refreshControl: UIRefreshControl!
@@ -52,7 +51,6 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     refreshControl = UIRefreshControl()
     refreshControl.addTarget(self, action: #selector
       (NowPlayingViewController.didPullToRefresh(_:)), for: .valueChanged)
-    // define datasource for tableview
     tableView.insertSubview(refreshControl, at: 0)
     
     tableView.dataSource = self
@@ -63,15 +61,12 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     alertController = UIAlertController(title: "Cannot Retrieve Movies", message: "The Internet Connection is Offline", preferredStyle: .alert)
     let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) {(action) in self.fetchNowPlayingMovies()}
     alertController.addAction(tryAgainAction)
-    
   }
   
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    
     if (!isMoreDataLoading) {
       let scrollViewContentHeight = tableView.contentSize.height
       let scrollViewOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
-      
       if (scrollView.contentOffset.y > scrollViewOffsetThreshold && tableView.isDragging) {
         isMoreDataLoading = true
         fetchNowPlayingMovies()
@@ -96,15 +91,10 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     }
   }
   
-  
-  
   @objc func didPullToRefresh(_ refreshControl: UIRefreshControl) {
-    
     // Set caption for HUD
     view.updateCaption(text: "refreshing...")
     view.showProgress()
-    //movies = []
-    //movies1 = []
     pageNum = 1
     fetchNowPlayingMovies()
   }
@@ -129,30 +119,23 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
         print(error.localizedDescription)
       }
       else if let data = data {
-        
         let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
         if (self.isMoreDataLoading) {
           self.movies1 = dataDictionary["results"] as! [[String: Any]]
           self.movies.append(contentsOf: self.movies1)
           self.isMoreDataLoading = false
-          
         }
         else {
           self.movies = dataDictionary["results"] as! [[String: Any]]
-          
         }
         self.view.dismissProgress()
         self.refreshControl.endRefreshing()
         self.tableView.reloadData()
-        
       }
-      
     }
     task.resume()
-    
   }
   
-  // default tableView functions
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return movies.count
   }
@@ -190,10 +173,4 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
       detailViewController.movie = movie
     }
   }
-  
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
-  }    
 }
-
