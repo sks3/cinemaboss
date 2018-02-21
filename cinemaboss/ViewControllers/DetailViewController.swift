@@ -46,15 +46,18 @@ class DetailViewController: UIViewController {
   @IBOutlet weak var releaseDateLabel: UILabel!
   @IBOutlet weak var overviewLabel: UILabel!
   
+  // global variable for movie data
   var movie: [String: Any]?
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    // detect tap on poster image
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGesture:)))
     posterImageView.isUserInteractionEnabled = true
     posterImageView.addGestureRecognizer(tapGesture)
     
+    // load data passed from segue into views
     if let movie = movie {
       movieTitleLabel.text = movie[MovieKeys.title] as? String
       releaseDateLabel.text = movie[MovieKeys.release_date] as? String
@@ -69,6 +72,7 @@ class DetailViewController: UIViewController {
     }
   }
   
+  // pass movie to movie trailer view
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let destinationNavigationController = segue.destination as! UINavigationController
     let movieTrailerController = destinationNavigationController.topViewController as! MovieTrailerViewController

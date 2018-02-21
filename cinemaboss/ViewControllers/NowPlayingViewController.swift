@@ -35,10 +35,15 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var scrollView: UIScrollView!
   
+  // global variables for movies data
   var movies: [[String: Any]] = []
   var movies1: [[String: Any]] = []
+  
+  // global variables for refresh and alert controllers
   var refreshControl: UIRefreshControl!
   var alertController: UIAlertController!
+  
+  // global variables for infinite scrolling
   var isMoreDataLoading = false
   var pageNum = 1
   
@@ -47,15 +52,15 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     
     scrollView.delegate = self
     tableView.delegate = self
+    tableView.dataSource = self
+    tableView.rowHeight = 190
+    tableView.backgroundColor = UIColor.black
     
+    // setup pullToRefresh control
     refreshControl = UIRefreshControl()
     refreshControl.addTarget(self, action: #selector
       (NowPlayingViewController.didPullToRefresh(_:)), for: .valueChanged)
     tableView.insertSubview(refreshControl, at: 0)
-    
-    tableView.dataSource = self
-    tableView.rowHeight = 190
-    tableView.backgroundColor = UIColor.black
     
     // alert user if no network connection is found
     alertController = UIAlertController(title: "Cannot Retrieve Movies", message: "The Internet Connection is Offline", preferredStyle: .alert)
@@ -63,6 +68,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     alertController.addAction(tryAgainAction)
   }
   
+  // call function to load more movies if scrolled past threshold
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     if (!isMoreDataLoading) {
       let scrollViewContentHeight = tableView.contentSize.height
@@ -91,6 +97,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     }
   }
   
+  // reload movies if pulled to refresh
   @objc func didPullToRefresh(_ refreshControl: UIRefreshControl) {
     // Set caption for HUD
     view.updateCaption(text: "refreshing...")
@@ -120,6 +127,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
       }
       else if let data = data {
         let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+        // append movies to dictionary if infinite scrolling
         if (self.isMoreDataLoading) {
           self.movies1 = dataDictionary["results"] as! [[String: Any]]
           self.movies.append(contentsOf: self.movies1)
@@ -165,6 +173,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     return cell
   }
   
+  // pass movie cell to detail view
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let cell = sender as! UITableViewCell
     if let indexPath = tableView.indexPath(for: cell) {

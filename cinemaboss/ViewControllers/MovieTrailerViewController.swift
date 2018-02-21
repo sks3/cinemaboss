@@ -32,14 +32,17 @@ import iProgressHUD
 
 class MovieTrailerViewController: UIViewController, WKUIDelegate {
   
+  // global variables to hold movie, video urls
   var movie: [String: Any]?
   var videos: [[String: Any]]?
   var webView: WKWebView!
   
+  // return to previous view controller when done
   @IBAction func doneWatching(_ sender: Any) {
     dismiss(animated: true, completion: nil)
   }
   
+  // load url in WKWebView and attach to view
   override func loadView() {
     let webConfiguration = WKWebViewConfiguration()
     webView = WKWebView(frame: .zero, configuration: webConfiguration)
@@ -61,9 +64,9 @@ class MovieTrailerViewController: UIViewController, WKUIDelegate {
     iprogress.attachProgress(toView: view)
     view.showProgress()
     requestVideos()
-    
   }
   
+  // call API and retrieve movie trailer url
   func requestVideos() {
     if let movie = movie {
       let baseUrl = "https://api.themoviedb.org/3/movie/"
@@ -80,8 +83,7 @@ class MovieTrailerViewController: UIViewController, WKUIDelegate {
         }
         else if let data = data {
           let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-          self.videos = dataDictionary["results"] as? [[String: Any]]
-          
+          self.videos = dataDictionary["results"] as? [[String: Any]]          
           let youtubeBaseUrl = "https://www.youtube.com/watch?v="
           let youtubeKey = self.videos![0]["key"]! as! String
           let youtubeRequestUrl = URL(string: youtubeBaseUrl + youtubeKey)

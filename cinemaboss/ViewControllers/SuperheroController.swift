@@ -35,8 +35,11 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
   @IBOutlet weak var superheroCollectionView: UICollectionView!
   @IBOutlet weak var scrollView: UIScrollView!
   
+  // global dictionaries to hold moview
   var movies: [[String: Any]] = []
   var movies1: [[String: Any]] = []
+  
+  // global variables for infinite scrolling
   var isMoreDataLoading = false
   var pageNum = 1
   
@@ -47,6 +50,7 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
     superheroCollectionView.dataSource = self
     superheroCollectionView.backgroundColor = UIColor.black
     
+    // setup collectionView cell size and spacing
     let layout = superheroCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
     layout.minimumInteritemSpacing = 3
     layout.minimumLineSpacing = layout.minimumInteritemSpacing
@@ -55,11 +59,13 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
     let width = superheroCollectionView.frame.size.width / cellsPerLine - interItemSpacingTotal / cellsPerLine
     layout.itemSize = CGSize(width: width, height: width * 3 / 2)
     
+    // load movies if not already loaded
     if (movies.count == 0) {
       fetchSuperHeroMovies()
     }
   }
   
+  // load more movies if scrolling past threshold
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     if (!isMoreDataLoading) {
       let scrollViewContentHeight = superheroCollectionView.contentSize.height
@@ -92,10 +98,10 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
     return movies.count
   }
   
+  // load movie poster and attach to posterImageView
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PosterCell", for: indexPath) as! PosterCell
     let movie = movies[indexPath.item]
-    
     if let posterPathString = movie["poster_path"] as? String {
       let baseURLstring = "https://image.tmdb.org/t/p/w500/"
       let posterURL = URL(string: baseURLstring + posterPathString)!
@@ -121,11 +127,11 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
       }
       else if let data = data {
         let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+        // load more movies and append to dictionary if infinite scrolling
         if (self.isMoreDataLoading) {
           self.movies1 = dataDictionary["results"] as! [[String: Any]]
           self.movies.append(contentsOf: self.movies1)
           self.isMoreDataLoading = false
-          print("fetchNowPlayingMovies2: movies size = " + String(self.movies.count))
         }
         else {
           self.movies = dataDictionary["results"] as! [[String: Any]]
@@ -133,12 +139,12 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
         self.view.dismissProgress()
         self.superheroCollectionView.reloadData()
         self.view.dismissProgress()
-        print("fetchNowPlayingMovies4: movies size = " + String(self.movies.count))
       }
     }
     task.resume()
   }
   
+  // send currently selected movie to detail view controller
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let cell = sender as! UICollectionViewCell
     if let indexPath = superheroCollectionView.indexPath(for: cell) {
