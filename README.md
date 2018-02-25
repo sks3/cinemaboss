@@ -10,7 +10,7 @@ The following **required** user stories are complete:
 
 - The following screens use AutoLayout to adapt to various orientations and screen sizes
 - [x] Movie feed view (+3pt)
-- [ ] Detail view (+2pt)
+- [x] Detail view (+2pt)
 
 The following **stretch** user stories are implemented:
 
