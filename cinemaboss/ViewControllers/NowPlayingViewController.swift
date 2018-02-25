@@ -53,7 +53,8 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     scrollView.delegate = self
     tableView.delegate = self
     tableView.dataSource = self
-    tableView.rowHeight = 190
+    tableView.rowHeight = UITableViewAutomaticDimension
+    tableView.estimatedRowHeight = 190
     tableView.backgroundColor = UIColor.black
     
     // setup pullToRefresh control
