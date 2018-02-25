@@ -15,11 +15,11 @@ The following **required** user stories are complete:
 The following **stretch** user stories are implemented:
 
 - [x] Dynamic Height Cells (+1)
-- [ ] Collection View AutoLayout (+2)
+- [x] Collection View AutoLayout (+2)
 
 The following **additional** user stories are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality! (+1-3pts)
+- [x] Auto-layout for launch screen and HUD displays (+1-3pts)
 
 ## Video Walkthrough
 
@@ -32,7 +32,7 @@ Here's a walkthrough of implemented user stories:
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+AutoLayout can be quite tricky and is a very meticulous process to get right.  The portability across devices makes it worth the effort!
 
 -----------------------------------------------------------------------------------------------------------------
 

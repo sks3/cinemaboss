@@ -75,6 +75,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
       let scrollViewContentHeight = tableView.contentSize.height
       let scrollViewOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
       if (scrollView.contentOffset.y > scrollViewOffsetThreshold && tableView.isDragging) {
+        tableView.showProgress()
         isMoreDataLoading = true
         fetchNowPlayingMovies()
       }
@@ -92,7 +93,8 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     iprogress.indicatorSize = 65
     iprogress.boxSize = 40
     iprogress.captionSize = 20
-    iprogress.attachProgress(toView: view)
+
+    iprogress.attachProgress(toView: tableView)
     if (movies.count == 0) {
       fetchNowPlayingMovies()
     }
@@ -101,15 +103,15 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
   // reload movies if pulled to refresh
   @objc func didPullToRefresh(_ refreshControl: UIRefreshControl) {
     // Set caption for HUD
-    view.updateCaption(text: "refreshing...")
-    view.showProgress()
+    tableView.updateCaption(text: "refreshing...")
+    tableView.showProgress()
     pageNum = 1
     fetchNowPlayingMovies()
   }
   
   // Retrieve NowPlaying listings from moviedb API
   func fetchNowPlayingMovies() {
-    view.showProgress()
+    tableView.showProgress()
     if (isMoreDataLoading) {
       pageNum += 1
     }
@@ -137,7 +139,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
         else {
           self.movies = dataDictionary["results"] as! [[String: Any]]
         }
-        self.view.dismissProgress()
+        self.tableView.dismissProgress()
         self.refreshControl.endRefreshing()
         self.tableView.reloadData()
       }
