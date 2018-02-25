@@ -88,7 +88,7 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
     iprogress.indicatorSize = 65
     iprogress.boxSize = 40
     iprogress.captionSize = 20
-    iprogress.attachProgress(toView: view)
+    iprogress.attachProgress(toView: superheroCollectionView)
     if (movies.count == 0) {
       fetchSuperHeroMovies()
     }
@@ -111,7 +111,7 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
   }
   
   func fetchSuperHeroMovies() {
-    view.showProgress()
+    superheroCollectionView.showProgress()
     if (isMoreDataLoading) {
       pageNum += 1
     }
@@ -136,9 +136,8 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
         else {
           self.movies = dataDictionary["results"] as! [[String: Any]]
         }
-        self.view.dismissProgress()
+        self.superheroCollectionView.dismissProgress()
         self.superheroCollectionView.reloadData()
-        self.view.dismissProgress()
       }
     }
     task.resume()
