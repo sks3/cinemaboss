@@ -47,7 +47,8 @@ class DetailViewController: UIViewController {
   @IBOutlet weak var overviewLabel: UILabel!
   
   // global variable for movie data
-  var movie: [String: Any]?
+  var movie: Movie?
+  //var movie: [String: Any]?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -59,16 +60,21 @@ class DetailViewController: UIViewController {
     
     // load data passed from segue into views
     if let movie = movie {
-      movieTitleLabel.text = movie[MovieKeys.title] as? String
-      releaseDateLabel.text = movie[MovieKeys.release_date] as? String
-      overviewLabel.text = movie[MovieKeys.overview] as? String
-      let backdropPathString = movie[MovieKeys.backdrop_path] as! String
-      let posterPathString = movie[MovieKeys.poster_path] as! String
-      let baseURLString = "https://image.tmdb.org/t/p/w500/"
-      let backdropPathURL = URL(string: baseURLString + backdropPathString)!
-      let posterPathURL = URL(string: baseURLString + posterPathString)!
-      backDropImageView.af_setImage(withURL: backdropPathURL)
-      posterImageView.af_setImage(withURL: posterPathURL)
+      
+      movieTitleLabel.text = movie.title
+      releaseDateLabel.text = movie.releaseDate
+      overviewLabel.text = movie.overview
+      
+      //movieTitleLabel.text = movie[MovieKeys.title] as? String
+      //releaseDateLabel.text = movie[MovieKeys.release_date] as? String
+      //overviewLabel.text = movie[MovieKeys.overview] as? String
+      //let backdropPathString = movie[MovieKeys.backdrop_path] as! String
+      //let posterPathString = movie[MovieKeys.poster_path] as! String
+      //let baseURLString = "https://image.tmdb.org/t/p/w500/"
+      //let backdropPathURL = URL(string: baseURLString + backdropPathString)!
+      //let posterPathURL = URL(string: baseURLString + posterPathString)!
+      backDropImageView.af_setImage(withURL: movie.backdropURL!)
+      posterImageView.af_setImage(withURL: movie.posterURL!)
     }
   }
   

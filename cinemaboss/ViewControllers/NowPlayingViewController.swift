@@ -36,8 +36,12 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
   @IBOutlet weak var scrollView: UIScrollView!
   
   // global variables for movies data
-  var movies: [[String: Any]] = []
-  var movies1: [[String: Any]] = []
+  
+  var movies: [Movie] = []
+  var movies1: [Movie] = []
+  
+  //var movies: [[String: Any]] = []
+  //var movies1: [[String: Any]] = []
   
   // global variables for refresh and alert controllers
   var refreshControl: UIRefreshControl!
@@ -132,12 +136,25 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
         let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
         // append movies to dictionary if infinite scrolling
         if (self.isMoreDataLoading) {
-          self.movies1 = dataDictionary["results"] as! [[String: Any]]
+          //self.movies1 = dataDictionary["results"] as! [[String: Any]]
+          let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
+          
+          self.movies1 = []
+          for dictionary in movieDictionaries {
+            let movie = Movie(dictionary: dictionary)
+            self.movies1.append(movie)
+          }
           self.movies.append(contentsOf: self.movies1)
           self.isMoreDataLoading = false
         }
         else {
-          self.movies = dataDictionary["results"] as! [[String: Any]]
+          let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
+          //self.movies = dataDictionary["results"] as! [[String: Any]]
+          self.movies = []
+          for dictionary in movieDictionaries {
+            let movie = Movie(dictionary: dictionary)
+            self.movies.append(movie)
+          }
         }
         self.tableView.dismissProgress()
         self.refreshControl.endRefreshing()
@@ -165,14 +182,16 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     
     // load movie attributes into MovieCell
     let movie = movies[indexPath.row]
-    let title = movie["title"] as! String
-    let overview = movie["overview"] as! String    
-    cell.titleLabel.text = title
-    cell.overviewLabel.text = overview
-    let posterPathString = movie["poster_path"] as! String
-    let baseURLString = "https://image.tmdb.org/t/p/w500/"
-    let posterURL = URL(string: baseURLString + posterPathString)!
-    cell.posterImageView.af_setImage(withURL: posterURL, placeholderImage: placeholderImage, filter: filter, imageTransition: .crossDissolve(0.1))
+    //let title = movie["title"] as! String
+    //let overview = movie["overview"] as! String
+    //cell.titleLabel.text = title
+    //cell.overviewLabel.text = overview
+    cell.titleLabel.text = movie.title
+    cell.overviewLabel.text = movie.overview
+    //let posterPathString = movie["poster_path"] as! String
+    //let baseURLString = "https://image.tmdb.org/t/p/w500/"
+    //let posterURL = URL(string: baseURLString + posterPathString)!
+    cell.posterImageView.af_setImage(withURL: movie.posterURL!, placeholderImage: placeholderImage, filter: filter, imageTransition: .crossDissolve(0.1))
     return cell
   }
   

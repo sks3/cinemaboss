@@ -36,8 +36,11 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
   @IBOutlet weak var scrollView: UIScrollView!
   
   // global dictionaries to hold moview
-  var movies: [[String: Any]] = []
-  var movies1: [[String: Any]] = []
+  //var movies: [[String: Any]] = []
+  //var movies1: [[String: Any]] = []
+  
+  var movies: [Movie] = []
+  var movies1: [Movie] = []
   
   // global variables for infinite scrolling
   var isMoreDataLoading = false
@@ -102,11 +105,11 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PosterCell", for: indexPath) as! PosterCell
     let movie = movies[indexPath.item]
-    if let posterPathString = movie["poster_path"] as? String {
-      let baseURLstring = "https://image.tmdb.org/t/p/w500/"
-      let posterURL = URL(string: baseURLstring + posterPathString)!
-      cell.posterImageView.af_setImage(withURL: posterURL)
-    }
+    //if let posterPathString = movie["poster_path"] as? String {
+      //let baseURLstring = "https://image.tmdb.org/t/p/w500/"
+      //let posterURL = URL(string: baseURLstring + posterPathString)!
+    cell.posterImageView.af_setImage(withURL: movie.posterURL!)
+   // }
     return cell
   }
   
@@ -129,12 +132,24 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
         let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
         // load more movies and append to dictionary if infinite scrolling
         if (self.isMoreDataLoading) {
-          self.movies1 = dataDictionary["results"] as! [[String: Any]]
+          let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
+          //self.movies1 = dataDictionary["results"] as! [[String: Any]]
+          self.movies1 = []
+          for dictionary in movieDictionaries {
+            let movie = Movie(dictionary: dictionary)
+            self.movies1.append(movie)
+          }
           self.movies.append(contentsOf: self.movies1)
           self.isMoreDataLoading = false
         }
         else {
-          self.movies = dataDictionary["results"] as! [[String: Any]]
+          let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
+          self.movies = []
+          //self.movies = dataDictionary["results"] as! [[String: Any]]
+          for dictionary in movieDictionaries {
+            let movie = Movie(dictionary: dictionary)
+            self.movies.append(movie)
+          }
         }
         self.superheroCollectionView.dismissProgress()
         self.superheroCollectionView.reloadData()
