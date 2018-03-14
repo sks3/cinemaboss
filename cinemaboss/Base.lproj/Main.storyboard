@@ -99,7 +99,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="794.39999999999998" y="118.29085457271366"/>
+            <point key="canvasLocation" x="793" y="117"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="ETZ-zB-OIz">
@@ -221,7 +221,6 @@
                     <tabBarItem key="tabBarItem" title="Now Playing" image="now_playing_tabbar_item" id="c2H-wq-khF"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hR2-xi-F5S">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -322,7 +321,6 @@
                     <tabBarItem key="tabBarItem" title="Superhero" image="superhero_tabbar_item" id="1VO-H6-vre"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="VG0-v3-kQt">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -358,6 +356,6 @@
         <image name="superhero_tabbar_item" width="21" height="23"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="sfm-RA-uCH"/>
+        <segue reference="Gbe-lK-xkm"/>
     </inferredMetricsTieBreakers>
 </document>
