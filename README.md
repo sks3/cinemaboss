@@ -2,7 +2,7 @@
 
 **CinemaBoss** is a movies app displaying box office and top rental DVDs using [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **20** hours spent in total
+Time spent: **21** hours spent in total
 
 ## User Stories
 
@@ -21,7 +21,7 @@ The following **additional** user stories are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-![CinemaBoss Video Walkthrough](https://github.com/sks3/cinemaboss/blob/master/cinemaboss2.gif)
+![CinemaBoss Video Walkthrough](https://github.com/sks3/cinemaboss/blob/master/cinemaboss4.gif)
 
 -GIF created with [LiceCap](http://www.cockos.com/licecap/).
 -Placeholder icon by [Gakuseisean](http://gakuseisean.deviantart.com/) from [www.iconfinder.com](www.iconfinder.com).
