@@ -40,16 +40,12 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
   var movies: [Movie] = []
   var movies1: [Movie] = []
   
-  //var movies: [[String: Any]] = []
-  //var movies1: [[String: Any]] = []
-  
   // global variables for refresh and alert controllers
   var refreshControl: UIRefreshControl!
   var alertController: UIAlertController!
   
   // global variables for infinite scrolling
   var isMoreDataLoading = false
-  var pageNum = 1
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -73,6 +69,27 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     alertController.addAction(tryAgainAction)
   }
   
+  
+  
+  override func viewWillAppear(_ animated: Bool) {
+    // Configure HUD and attach to view
+    let iprogress: iProgressHUD = iProgressHUD()
+    iprogress.isShowModal = true
+    iprogress.isBlurModal = true
+    iprogress.isShowCaption = true
+    iprogress.isTouchDismiss = true
+    iprogress.indicatorStyle = .ballGridPulse
+    iprogress.indicatorSize = 65
+    iprogress.boxSize = 40
+    iprogress.captionSize = 20
+    
+    iprogress.attachProgress(toView: tableView)
+    if (movies.count == 0) {
+      fetchNowPlayingMovies()
+    }
+  }
+  
+  
   // call function to load more movies if scrolled past threshold
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     if (!isMoreDataLoading) {
@@ -86,30 +103,13 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     }
   }
   
-  override func viewDidAppear(_ animated: Bool) {
-    // Configure HUD and attach to view
-    let iprogress: iProgressHUD = iProgressHUD()
-    iprogress.isShowModal = true
-    iprogress.isBlurModal = true
-    iprogress.isShowCaption = true
-    iprogress.isTouchDismiss = true
-    iprogress.indicatorStyle = .ballGridPulse
-    iprogress.indicatorSize = 65
-    iprogress.boxSize = 40
-    iprogress.captionSize = 20
-
-    iprogress.attachProgress(toView: tableView)
-    if (movies.count == 0) {
-      fetchNowPlayingMovies()
-    }
-  }
   
   // reload movies if pulled to refresh
   @objc func didPullToRefresh(_ refreshControl: UIRefreshControl) {
     // Set caption for HUD
     tableView.updateCaption(text: "refreshing...")
     tableView.showProgress()
-    pageNum = 1
+    MovieApiManager.nowPlayingPageNum = 1
     fetchNowPlayingMovies()
   }
   
@@ -117,52 +117,32 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
   func fetchNowPlayingMovies() {
     tableView.showProgress()
     if (isMoreDataLoading) {
-      pageNum += 1
+      MovieApiManager.nowPlayingPageNum += 1
     }
-    let bulkRequest = "https://api.themoviedb.org/3/movie/now_playing?api_key=4e92dd6c397483b130eb698d2e0bb14e"
-    let pageRequest = "&page=" + String(pageNum)
     
-    let url = URL(string: bulkRequest + pageRequest)!
-    let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
-    let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
-    let task = session.dataTask(with: request) { (data, response, error) in
-      // This will run when the network request returns
-      if let error = error {
-        // display alert for user to retry connecting
-        self.present(self.alertController, animated: true)
-        print(error.localizedDescription)
+    // append movies to dictionary if infinite scrolling
+    if (isMoreDataLoading) {
+      MovieApiManager().nowPlayingMovies { (movies1: [Movie]?, error: Error?) in
+        if let movies1 = movies1 {
+          self.movies1 = movies1
+        }
       }
-      else if let data = data {
-        let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-        // append movies to dictionary if infinite scrolling
-        if (self.isMoreDataLoading) {
-          //self.movies1 = dataDictionary["results"] as! [[String: Any]]
-          let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
-          
-          self.movies1 = Movie.movies(dictionaries: movieDictionaries)
-          //for dictionary in movieDictionaries {
-          //  let movie = Movie(dictionary: dictionary)
-          //  self.movies1.append(movie)
-         // }
-          self.movies.append(contentsOf: self.movies1)
-          self.isMoreDataLoading = false
+      self.movies.append(contentsOf: self.movies1)
+      self.isMoreDataLoading = false
+      self.tableView.dismissProgress()
+      self.refreshControl.endRefreshing()
+      self.tableView.reloadData()
+    }
+    else {
+      MovieApiManager().nowPlayingMovies { (movies: [Movie]?, error: Error?) in
+        if let movies = movies {
+          self.movies = movies
+          self.tableView.dismissProgress()
+          self.refreshControl.endRefreshing()
+          self.tableView.reloadData()
         }
-        else {
-          let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
-          //self.movies = dataDictionary["results"] as! [[String: Any]]
-          self.movies = Movie.movies(dictionaries: movieDictionaries)
-          //  []
-          //for dictionary in movieDictionaries {
-           // let movie = Movie(dictionary: dictionary)
-            //self.movies.append(movie)
-          //}
-        }
-        self.tableView.dismissProgress()
-        self.refreshControl.endRefreshing()
-        self.tableView.reloadData()
       }
     }
-    task.resume()
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -171,23 +151,8 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
-    
-    // define placeholder image for display until posters load
-   // let placeholderImage = UIImage(named: "placeholder")
-    
-    // specify animation technique for image transition
-   // let filter = AspectScaledToFillSizeFilter(size: cell.posterImageView.frame.size)
-    
     //set cell selection effect
     cell.selectionStyle = .none
-    
-    // load movie attributes into MovieCell
-    //let movie = movies[indexPath.row]
-  //  cell.titleLabel.text = movie.title
-  //  cell.overviewLabel.text = movie.overview
-  //  cell.posterImageView.af_setImage(withURL: movie.posterURL!, placeholderImage: placeholderImage, filter: filter, imageTransition: .crossDissolve(0.1))
-    
-    
     cell.movie = movies[indexPath.row]
     return cell
   }

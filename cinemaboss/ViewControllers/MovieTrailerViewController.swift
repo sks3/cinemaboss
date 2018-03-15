@@ -70,11 +70,6 @@ class MovieTrailerViewController: UIViewController, WKUIDelegate {
   // call API and retrieve movie trailer url
   func requestVideos() {
     if let movie = movie {
-      //let baseUrl = "https://api.themoviedb.org/3/movie/"
-      //let id = movie["id"] as! Int
-      //let key = "/videos?api_key=4e92dd6c397483b130eb698d2e0bb14e"
-      //let url = URL(string: baseUrl + String(id) + key)
-      
       let request = URLRequest(url: movie.movieURL!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
       let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
       let task = session.dataTask(with: request) { (data, response, error) in

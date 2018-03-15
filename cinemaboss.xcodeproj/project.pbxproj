@@ -12,6 +12,7 @@
 		3550213FA2C94E543882A97A /* Pods_cinemaboss.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D768D3A8B86D15FC76F455C7 /* Pods_cinemaboss.framework */; };
 		E7003A73202CE14300DEDED4 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7003A72202CE14300DEDED4 /* MovieCell.swift */; };
 		E741842C2058D9A600FD018C /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = E741842B2058D9A600FD018C /* Movie.swift */; };
+		E741842E205A2A3200FD018C /* MovieApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E741842D205A2A3200FD018C /* MovieApiManager.swift */; };
 		E760BBC02033B6EA00ADD619 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E760BBBF2033B6EA00ADD619 /* DetailViewController.swift */; };
 		E79B3E472039522E00642F53 /* PosterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79B3E462039522E00642F53 /* PosterCell.swift */; };
 		E79B3E492039528100642F53 /* SuperheroController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79B3E482039528100642F53 /* SuperheroController.swift */; };
@@ -52,6 +53,7 @@
 		D768D3A8B86D15FC76F455C7 /* Pods_cinemaboss.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_cinemaboss.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7003A72202CE14300DEDED4 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		E741842B2058D9A600FD018C /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		E741842D205A2A3200FD018C /* MovieApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieApiManager.swift; sourceTree = "<group>"; };
 		E760BBBF2033B6EA00ADD619 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		E79B3E462039522E00642F53 /* PosterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterCell.swift; sourceTree = "<group>"; };
 		E79B3E482039528100642F53 /* SuperheroController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperheroController.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				E7C6F80E202694D100CB2309 /* Assets.xcassets */,
 				E7C6F810202694D100CB2309 /* LaunchScreen.storyboard */,
 				E7C6F813202694D100CB2309 /* Info.plist */,
+				E741842D205A2A3200FD018C /* MovieApiManager.swift */,
 			);
 			path = cinemaboss;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				E79B3E4B203A29D500642F53 /* MovieTrailerViewController.swift in Sources */,
 				E7C6F8362027BA4F00CB2309 /* NowPlayingViewController.swift in Sources */,
 				E79B3E492039528100642F53 /* SuperheroController.swift in Sources */,
+				E741842E205A2A3200FD018C /* MovieApiManager.swift in Sources */,
 				E79B3E472039522E00642F53 /* PosterCell.swift in Sources */,
 				E7C6F808202694D100CB2309 /* AppDelegate.swift in Sources */,
 				E7003A73202CE14300DEDED4 /* MovieCell.swift in Sources */,
