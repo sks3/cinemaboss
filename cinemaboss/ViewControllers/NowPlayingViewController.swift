@@ -139,22 +139,23 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
           //self.movies1 = dataDictionary["results"] as! [[String: Any]]
           let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
           
-          self.movies1 = []
-          for dictionary in movieDictionaries {
-            let movie = Movie(dictionary: dictionary)
-            self.movies1.append(movie)
-          }
+          self.movies1 = Movie.movies(dictionaries: movieDictionaries)
+          //for dictionary in movieDictionaries {
+          //  let movie = Movie(dictionary: dictionary)
+          //  self.movies1.append(movie)
+         // }
           self.movies.append(contentsOf: self.movies1)
           self.isMoreDataLoading = false
         }
         else {
           let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
           //self.movies = dataDictionary["results"] as! [[String: Any]]
-          self.movies = []
-          for dictionary in movieDictionaries {
-            let movie = Movie(dictionary: dictionary)
-            self.movies.append(movie)
-          }
+          self.movies = Movie.movies(dictionaries: movieDictionaries)
+          //  []
+          //for dictionary in movieDictionaries {
+           // let movie = Movie(dictionary: dictionary)
+            //self.movies.append(movie)
+          //}
         }
         self.tableView.dismissProgress()
         self.refreshControl.endRefreshing()
@@ -172,26 +173,22 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
     let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
     
     // define placeholder image for display until posters load
-    let placeholderImage = UIImage(named: "placeholder")
+   // let placeholderImage = UIImage(named: "placeholder")
     
     // specify animation technique for image transition
-    let filter = AspectScaledToFillSizeFilter(size: cell.posterImageView.frame.size)
+   // let filter = AspectScaledToFillSizeFilter(size: cell.posterImageView.frame.size)
     
     //set cell selection effect
     cell.selectionStyle = .none
     
     // load movie attributes into MovieCell
-    let movie = movies[indexPath.row]
-    //let title = movie["title"] as! String
-    //let overview = movie["overview"] as! String
-    //cell.titleLabel.text = title
-    //cell.overviewLabel.text = overview
-    cell.titleLabel.text = movie.title
-    cell.overviewLabel.text = movie.overview
-    //let posterPathString = movie["poster_path"] as! String
-    //let baseURLString = "https://image.tmdb.org/t/p/w500/"
-    //let posterURL = URL(string: baseURLString + posterPathString)!
-    cell.posterImageView.af_setImage(withURL: movie.posterURL!, placeholderImage: placeholderImage, filter: filter, imageTransition: .crossDissolve(0.1))
+    //let movie = movies[indexPath.row]
+  //  cell.titleLabel.text = movie.title
+  //  cell.overviewLabel.text = movie.overview
+  //  cell.posterImageView.af_setImage(withURL: movie.posterURL!, placeholderImage: placeholderImage, filter: filter, imageTransition: .crossDissolve(0.1))
+    
+    
+    cell.movie = movies[indexPath.row]
     return cell
   }
   

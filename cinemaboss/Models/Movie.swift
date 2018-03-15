@@ -36,4 +36,14 @@ class Movie {
     id = dictionary["id"] as? Int ?? 0
     movieURL = URL(string: movieBaseURLString + String(id) + movieKey)
   }
+  
+  class func movies(dictionaries: [[String: Any]]) -> [Movie] {
+    var movies: [Movie] = []
+    for dictionary in dictionaries {
+      let movie = Movie(dictionary: dictionary)
+      movies.append(movie)
+    }
+    return movies
+  }
+  
 }

@@ -30,13 +30,13 @@ import UIKit
 import AlamofireImage
 
 // declare possible labels from json
-enum MovieKeys {
-  static let title = "title"
-  static let release_date = "release_date"
-  static let overview = "overview"
-  static let poster_path = "poster_path"
-  static let backdrop_path = "backdrop_path"
-}
+//enum MovieKeys {
+//  static let title = "title"
+  //static let release_date = "release_date"
+ // static let overview = "overview"
+ // static let poster_path = "poster_path"
+ // static let backdrop_path = "backdrop_path"
+//}
 
 class DetailViewController: UIViewController {
   

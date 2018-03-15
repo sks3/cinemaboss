@@ -31,11 +31,31 @@ import AlamofireImage
 
 class MovieCell: UITableViewCell {
   
+
+  
   @IBOutlet weak var posterImageView: UIImageView!
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var overviewLabel: UILabel!
+  
+  var movie: Movie! {
+    didSet {
+      // define placeholder image for display until posters load
+    let placeholderImage = UIImage(named: "placeholder")
+    
+    // specify animation technique for image transition
+    let filter = AspectScaledToFillSizeFilter(size: posterImageView.frame.size)
+    
+    
+    titleLabel.text = self.movie.title
+    overviewLabel.text = self.movie.overview
+    posterImageView.af_setImage(withURL: self.movie.posterURL!, placeholderImage: placeholderImage, filter: filter, imageTransition: .crossDissolve(0.1))
+    }
+  }
 
-    override func awakeFromNib() {
+  
+
+  
+  override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }

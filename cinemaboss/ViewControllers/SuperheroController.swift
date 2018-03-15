@@ -134,22 +134,23 @@ class SuperheroController: UIViewController, UICollectionViewDataSource, UIColle
         if (self.isMoreDataLoading) {
           let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
           //self.movies1 = dataDictionary["results"] as! [[String: Any]]
-          self.movies1 = []
-          for dictionary in movieDictionaries {
-            let movie = Movie(dictionary: dictionary)
-            self.movies1.append(movie)
-          }
+          //self.movies1 = []
+          //for dictionary in movieDictionaries {
+          //  let movie = Movie(dictionary: dictionary)
+          //  self.movies1.append(movie)
+          //}
+          self.movies1 = Movie.movies(dictionaries: movieDictionaries)
           self.movies.append(contentsOf: self.movies1)
           self.isMoreDataLoading = false
         }
         else {
           let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
-          self.movies = []
+          self.movies = Movie.movies(dictionaries: movieDictionaries)
           //self.movies = dataDictionary["results"] as! [[String: Any]]
-          for dictionary in movieDictionaries {
-            let movie = Movie(dictionary: dictionary)
-            self.movies.append(movie)
-          }
+          //for dictionary in movieDictionaries {
+          //  let movie = Movie(dictionary: dictionary)
+            //self.movies.append(movie)
+         // }
         }
         self.superheroCollectionView.dismissProgress()
         self.superheroCollectionView.reloadData()
