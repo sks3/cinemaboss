@@ -1,0 +1,6 @@
+framework module Pods_cinemaboss {
+  umbrella header "Pods-cinemaboss-umbrella.h"
+
+  export *
+  module * { export * }
+}
